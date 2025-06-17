@@ -42,7 +42,7 @@
 
     if (isPwa()) {
       // Страница открыта как PWA — перенаправляем автоматически.
-      pwaCheck.innerHTML = "Открытие приложения…";
+      pwaCheck.innerHTML ='<img src="/orbita/loader.gif" alt="Загрузка..." style="width:60px;height:auto;">';
       window.location.href = "https://auto-orbita.com/";
     } else {
       // Не в PWA
