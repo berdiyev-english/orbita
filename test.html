@@ -40,10 +40,14 @@
     const pwaCheck = document.getElementById('pwa-check');
     const goBtn = document.getElementById('go-app-btn');
 
-    if (isPwa()) {
-      // Страница открыта как PWA — перенаправляем автоматически.
-      pwaCheck.innerHTML ='<img src="/orbita/loader.gif" alt="Загрузка..." style="width:60px;height:auto;">';
-      window.location.href = "https://auto-orbita.com/";
+if (isPwa()) {
+  goBtn.style.display = "none";
+  pwaCheck.innerHTML = '<img src="/orbita/loader.gif" alt="Загрузка..." style="width:60px;height:auto;">';
+  // Дайте браузеру время отобразить анимацию:
+  setTimeout(function() {
+    window.location.href = "https://auto-orbita.com/";
+  }, 1200); // 1.2 секунды можно изменить, если нужно дольше/короче
+}
     } else {
       // Не в PWA
       pwaCheck.innerHTML = `
