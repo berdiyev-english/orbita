@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Откройте приложение авто-орбита через PWA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Можно подключить manifest.json и service-worker.js, если нужна полноценная PWA-обёртка для вашей переадресующей страницы -->
+  <style>
+    body { font-family: sans-serif; }
+    #main-block {
+      max-width:400px; margin:40px auto; padding:30px;
+      border:1px solid #ddd; border-radius:7px; box-shadow:0 0 20px #eee;
+      text-align:center;
+    }
+    #install-instruction { color:#444; font-size:18px; margin-bottom:20px;}
+    button, a.btn { background:#1a7dec; color:#fff; border:none; border-radius:5px; font-size:18px; padding:10px 32px;
+      margin-top:18px; margin-bottom:8px; text-decoration:none; display:inline-block;
+    }
+    button:hover, a.btn:hover { background:#0955e0;}
+  </style>
+</head>
+<body>
+  <div id="main-block">
+    <div id="pwa-check"></div>
+    <a id="go-app-btn" class="btn" style="display:none;" href="https://auto-orbita.com/">Перейти в приложение</a>
+  </div>
+
+  <script>
+  function isPwa() {
+    return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone;
+  }
+
+  window.addEventListener('DOMContentLoaded', function() {
+    const pwaCheck = document.getElementById('pwa-check');
+    const goBtn = document.getElementById('go-app-btn');
+
+    if (isPwa()) {
+      // Страница открыта как PWA — перенаправляем автоматически.
+      pwaCheck.innerHTML = "Открытие приложения…";
+      window.location.href = "https://auto-orbita.com/";
+    } else {
+      // Не в PWA
+      pwaCheck.innerHTML = `
+        <div id="install-instruction">Для удобства установите это приложение на главный экран:</div>
+        <div style="margin-bottom:18px;text-align:left;">
+          <b>Android (Chrome):</b><br> 
+          Откройте меню <b>⋮</b> — выберите <b>«Установить приложение»</b> или <b>«Добавить на главный экран»</b>.<br><br>
+          <b>iPhone (Safari):</b><br>
+          Нажмите <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/IOS_Share_icon.png/24px-IOS_Share_icon.png" style="vertical-align:middle;width:18px;height:18px;"> — <b>«На экран Домой»</b>.
+        </div>
+      `;
+      goBtn.style.display = "inline-block";
+    }
+  });
+  </script>
+</body>
+</html>
