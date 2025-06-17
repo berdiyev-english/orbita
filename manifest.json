@@ -1,7 +1,7 @@
 {
   "name": "Орбита:Автозапчасти",
   "short_name": "Орбита:Автозапчасти",
-  "start_url": "/orbita/",
+  "start_url": "https://auto-orbita.com/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
