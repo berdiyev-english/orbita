@@ -4,25 +4,58 @@
   <meta charset="UTF-8">
   <title>Приложение авто-орбита</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Можно подключить manifest.json и service-worker.js, если нужна полноценная PWA-обёртка для вашей переадресующей страницы -->
- <link rel="manifest" href="/orbita/manifest.json">
-<meta name="theme-color" content="#FFFFFF">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Орбита:Автозапчасти">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="apple-touch-icon" href="/orbita/icon-192.png">
+  <link rel="manifest" href="/orbita/manifest.json">
+  <meta name="theme-color" content="#FFFFFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Орбита:Автозапчасти">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="apple-touch-icon" href="/orbita/icon-192.png">
   <style>
-    body { font-family: sans-serif; }
+    body { font-family: sans-serif; line-height: 1.6; color: #333;}
     #main-block {
       max-width:400px; margin:40px auto; padding:30px;
       border:1px solid #ddd; border-radius:7px; box-shadow:0 0 20px #eee;
       text-align:center;
     }
-    #install-instruction { color:#444; font-size:18px; margin-bottom:20px;}
+    /* Общие стили для инструкций и текста */
+    #install-instruction { color:#444; margin-bottom:20px;}
+    #install-instruction h2 {
+        color:#1a7dec; margin-bottom: 10px; font-size: 22px;
+    }
+    #install-instruction h3 {
+        color:#1a7dec; margin-top: 25px; margin-bottom: 10px; font-size: 20px;
+    }
+    #install-instruction ul {
+      list-style: none;
+      padding: 0;
+      text-align: left;
+    }
+    #install-instruction li {
+      margin-bottom: 15px;
+      padding-left: 0;
+    }
+    #install-instruction img.icon {
+      vertical-align: middle;
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+    }
+
     button, a.btn { background:#1a7dec; color:#fff; border:none; border-radius:5px; font-size:18px; padding:10px 32px;
       margin-top:18px; margin-bottom:8px; text-decoration:none; display:inline-block;
     }
     button:hover, a.btn:hover { background:#0955e0;}
+
+    /* CSS АНИМАЦИЯ ДЛЯ ЛОГОТИПА */
+    @keyframes pulse-logo {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .animated-logo {
+      animation: pulse-logo 1.5s infinite ease-in-out;
+    }
   </style>
 </head>
 <body>
@@ -40,25 +73,62 @@
     const pwaCheck = document.getElementById('pwa-check');
     const goBtn = document.getElementById('go-app-btn');
 
-if (isPwa()) {
-  pwaCheck.innerHTML = '<img src="/orbita/logo-orbita.jpg" alt="Загрузка...">';
-  // Дайте браузеру время отобразить анимацию:
-  setTimeout(function() {
-    window.location.href = "https://auto-orbita.com/";
-    } else {
-      // Не в PWA
+    if (isPwa()) {
+      // Страница открыта как PWA — перенаправляем автоматически.
+      goBtn.style.display = "none"; // Скрываем кнопку "Перейти в приложение"
       pwaCheck.innerHTML = `
-        <div id="install-instruction">Для удобства установите это приложение на главный экран:</div>
-        <div style="margin-bottom:18px;text-align:left;">
-          <b>Android (Chrome):</b><br> 
-          Откройте меню <b>⋮</b> — выберите <b>«Установить приложение»</b> или <b>«Добавить на главный экран»</b>.<br><br>
-          <b>iPhone (Safari):</b><br>
-          Нажмите <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/IOS_Share_icon.png/24px-IOS_Share_icon.png" style="vertical-align:middle;width:18px;height:18px;"> — <b>«На экран Домой»</b>.
+        <img src="/orbita/logo-orbita.jpg" alt="Загрузка..." class="animated-logo" style="width:180px;height:auto;display:block;margin:0 auto;">
+        <div style="margin-top:10px;">Открытие приложения…</div>
+      `;
+      // Дайте браузеру время отобразить анимацию:
+      setTimeout(function() {
+        window.location.href = "https://auto-orbita.com/";
+      }, 1200); // Задержка 1.2 секунды
+    } else {
+      // Страница открыта НЕ в PWA-режиме - показываем инструкцию
+      pwaCheck.innerHTML = `
+        <div id="install-instruction">
+          <h2>Установите приложение для удобного доступа!</h2>
+          <p>Чтобы пользоваться приложением без браузера и с быстрым доступом, добавьте его на главный экран:</p>
+
+          <h3>Для Android (Google Chrome):</h3>
+          <ul>
+            <li>
+              Нажмите на <img src="https://cdn-icons-png.flaticon.com/512/13/13770.png" alt="Иконка меню Chrome" class="icon"> <b>иконку меню</b> (три точки или три полоски) в правом верхнем углу браузера.
+            </li>
+            <li>
+              В появившемся меню выберите пункт <b>«Установить приложение»</b> или <b>«Добавить на главный экран»</b>.
+            </li>
+            <li>
+              Подтвердите установку, нажав <b>«Установить»</b>.
+            </li>
+          </ul>
+
+          <h3>Для iPhone/iPad (Safari):</h3>
+          <ul>
+            <li>
+              Нажмите на <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/IOS_Share_icon.png/24px-IOS_Share_icon.png" alt="Иконка Поделиться Safari" class="icon"> <b>иконку «Поделиться»</b> (квадрат со стрелкой вверх) в нижней части экрана.
+            </li>
+            <li>
+              В появившемся меню прокрутите вниз и выберите <b>«На экран «Домой»</b>.
+            </li>
+            <li>
+              Подтвердите, нажав <b>«Добавить»</b> в правом верхнем углу.
+            </li>
+          </ul>
         </div>
+        <div style="color:#888;font-size:13px;margin-top:20px;">* После установки при запуске приложение будет всегда открывать сайт auto-orbita.com</div>
       `;
       goBtn.style.display = "inline-block";
     }
   });
+
+  // Регистрация service-worker для PWA [ОПЦИОНАЛЬНО]
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/orbita/service-worker.js');
+    });
+  }
   </script>
 </body>
 </html>
