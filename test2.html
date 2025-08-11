@@ -1,31 +1,81 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Переадресация...</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Мета-тег для автоматической переадресации через 0 секунд -->
-  <meta http-equiv="refresh" content="0;url=https://auto-orbita.com/">
-  
-  <style>
-    /* Эти стили гарантируют, что страница будет пустой и без прокрутки */
-    body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden; /* Убирает полосы прокрутки, если вдруг что-то появится */
-      background-color: #FFFFFF; /* Можно указать любой цвет фона, или оставить transparent */
-      min-height: 100vh; /* Гарантирует, что body занимает всю высоту */
-      width: 100vw; /* Гарантирует, что body занимает всю ширину */
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting to Auto Orbita...</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8; /* Светло-серый фон */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+        .fallback-container {
+            display: none;
+            text-align: center;
+            background-color: #ffffff; /* Белый фон для контейнера */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
+            animation: fadeIn 0.8s ease-out;
+        }
+        .logo {
+            width: 150px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #e53e3e; /* Красный заголовок */
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+        a {
+            color: #e53e3e; /* Красная ссылка */
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #c53030;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            // Открываем сайт в новом окне моментально
+            window.open("https://auto-orbita.com/", "_blank");
 
-  <script>
-    // JavaScript-переадресация как запасной вариант, если meta refresh не сработает
-    // window.location.replace() не оставляет страницу в истории браузера
-    window.location.replace("https://auto-orbita.com/");
-  </script>
+            // Показываем сообщение через 5 секунд, если редирект не сработал
+            setTimeout(function() {
+                document.querySelector(".fallback-container").style.display = "block";
+            }, 5000);
+        }
+    </script>
 </head>
 <body>
-  <!-- Здесь нет никакого видимого содержимого -->
+    <div class="fallback-container">
+        <img src="logo-orbita.jpg" alt="Auto Orbita Logo" class="logo">
+        <h1>Перенаправление...</h1>
+        <p>Если сайт не открылся автоматически, пожалуйста, нажмите <a href="https://auto-orbita.com/" target="_blank">здесь</a>.</p>
+    </div>
 </body>
 </html>
+
